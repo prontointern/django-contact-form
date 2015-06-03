@@ -1,0 +1,3 @@
+su vagrant <<'EOF'
+
+EOF
