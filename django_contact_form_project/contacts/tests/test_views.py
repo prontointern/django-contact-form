@@ -18,6 +18,13 @@ class ContactViewTest(TestCase):
         expected = '<form action="." method="post">'
         self.assertContains(self.response, expected, status_code=200)
 
+    def test_contact_view_should_have_firstname_input(self):
+        expected = '<label>Firstname: '
+        self.assertContains(self.response, expected, status_code=200)
+
+        expected = '<input type="text" name="firstname">'
+        self.assertContains(self.response, expected, status_code=200)
+
     def test_contact_view_should_have_lastname_and_input(self):
         expected = '<label>Last Name:</label>'
         self.assertContains(self.response, expected, status_code=200)
