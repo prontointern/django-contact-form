@@ -15,3 +15,12 @@ class ContactView(TemplateView):
             }
         )
 
+    def post(self, request):
+        header = 'Contact Form'
+        return render(
+            request,
+            self.template_name,
+            {
+                'header': header
+            }
+        )
