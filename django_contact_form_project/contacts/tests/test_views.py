@@ -36,4 +36,3 @@ class ContactViewTest(TestCase):
         expected = '<input type="submit" value="Submit">'
         self.assertContains(self.response, expected, status_code=200)
 
-
