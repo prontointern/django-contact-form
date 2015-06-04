@@ -1,7 +1,8 @@
 su vagrant <<'EOF'
 sudo apt-get update
-sudo apt-get install python-setuptools
+sudo apt-get install -y python-setuptools
 sudo easy_install pip
+sudo apt-get install -y xvfb firefox
 sudo pip install virtualenv virtualenvwrapper
 echo 'export WORKON_HOME=$HOME/.virtualenvs' >> ~/.bash_profile
 echo 'source /usr/local/bin/virtualenvwrapper.sh' >> ~/.bash_profile
