@@ -10,10 +10,6 @@ class ContactViewTest(TestCase):
     def test_contact_view_is_accessible(self):
         self.assertEqual(self.response.status_code, 200)
 
-    def test_contact_view_should_have_contact_form_header(self):
-        expected =  '<h1>Contact Form</h1>'
-        self.assertContains(self.response, expected, status_code=200)
-
     def test_contact_view_should_have_form_tag(self):
         expected = '<form action="." method="post">'
         self.assertContains(self.response, expected, status_code=200)
