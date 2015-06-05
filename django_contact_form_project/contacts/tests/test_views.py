@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
+from ..models import Contact
+
 
 class ContactViewTest(TestCase):
     def setUp(self):
@@ -35,3 +37,13 @@ class ContactViewTest(TestCase):
     def test_contact_view_should_accessible_by_post(self):
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, 200)
+
+    def test_submit_contact_data_successfully(self):
+        data = {
+            'firstname': 'John',
+            'lastname': 'Smith'
+        }
+        self.client.post(self.url, data=data)
+        contact = Contact.objects.get(firstname='John')
+        self.assertEqual(contact.firstname, 'John')
+        self.assertEqual(contact.lastname, 'Smith')
