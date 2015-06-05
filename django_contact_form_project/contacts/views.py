@@ -22,6 +22,7 @@ class ContactView(TemplateView):
         )
 
     def post(self, request):
+        header = 'Contact Form'
         form = ContactForm(data=request.POST)
         if form.is_valid():
             firstname = form.cleaned_data['firstname']
@@ -34,5 +35,8 @@ class ContactView(TemplateView):
         return render(
             request,
             self.template_name,
-            {}
+            {
+                'header': header,
+                'contact_form': form
+            }
         )

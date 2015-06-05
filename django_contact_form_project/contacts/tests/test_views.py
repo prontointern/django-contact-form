@@ -67,3 +67,25 @@ class ContactViewTest(TestCase):
         self.client.post(self.url, data=data)
         contact_count = Contact.objects.all().count()
         self.assertEqual(contact_count, 0)
+
+    def test_submit_contact_data_without_firstname_should_get_error_message(
+        self
+    ):
+        data = {
+            'firstname': '',
+            'lastname': 'Smith'
+        }
+        response = self.client.post(self.url, data=data)
+        expected = 'This field is required.'
+        self.assertContains(response, expected, status_code=200)
+
+    def test_submit_contact_data_without_lastname_should_get_error_message(
+        self
+    ):
+        data = {
+            'firstname': 'John',
+            'lastname': ''
+        }
+        response = self.client.post(self.url, data=data)
+        expected = 'This field is required.'
+        self.assertContains(response, expected, status_code=200)

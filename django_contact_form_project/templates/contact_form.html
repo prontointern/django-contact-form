@@ -8,8 +8,10 @@
             {% csrf_token %}
             <label>Firstname: </label>
             {{ contact_form.firstname }}
+            {{ contact_form.firstname.errors }}
             <label>Last Name:</label>
             {{ contact_form.lastname }}
+            {{ contact_form.lastname.errors }}
             <input type="submit" value="Submit">
         </form>
     </body>
