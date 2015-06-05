@@ -5,6 +5,7 @@
     <body>
         <h1>{{ header }}</h1>
         <form action="." method="post">
+            {% csrf_token %}
             <label>Firstname: </label>
             <input type="text" name="firstname">
             <label>Last Name:</label>

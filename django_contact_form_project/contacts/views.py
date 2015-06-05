@@ -15,3 +15,10 @@ class ContactView(TemplateView):
             }
         )
 
+
+    def post(self, request):
+        return render(
+            request,
+            self.template_name,
+            {}
+        )
