@@ -28,3 +28,11 @@ class ContactTest(TestCase):
         contact.firstname = 'John'
         contact.lastname = None
         self.assertRaises(IntegrityError, contact.save)
+
+    def test_print_contact_object_should_be_readable(self):
+        contact = Contact.objects.create(
+            firstname='John',
+            lastname='Smith'
+        )
+        expected = 'John Smith'
+        self.assertEqual(contact.__unicode__(), expected)
