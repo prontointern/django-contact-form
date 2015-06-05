@@ -1,10 +1,12 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
+from ..models import Contact
+
 
 class ContactAdminTest(TestCase):
-    def test_accessible_admin_contact(self):
-        sup = User.objects.create_superuser(
+    def setUp(self):
+        User.objects.create_superuser(
             'admin',
             'admin@mail.com',
             'admin',
@@ -16,7 +18,27 @@ class ContactAdminTest(TestCase):
             password='admin'
         )
 
-        url = '/admin/contacts/contact/'
-        response = self.client.get(url)
+        self.url = '/admin/contacts/contact/'
+
+    def test_accessible_admin_contact(self):
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
+    def test_contact_admin_should_have_firstname_column(self):
+        Contact.objects.create(
+            firstname='John',
+            lastname='Smith'
+        )
+
+        response = self.client.get(self.url)
+        expected = '<div class="text"><a href="?o=1">Firstname</a></div>'
+        self.assertContains(response, expected, status_code=200)
+
+    def test_contact_admin_should_have_lastname_column(self):
+        Contact.objects.create(
+            firstname='John',
+            lastname='Smith'
+        )
+        response = self.client.get(self.url)
+        expected = '<div class="text"><a href="?o=2">Lastname</a></div>'
+        self.assertContains(response, expected, status_code=200)
