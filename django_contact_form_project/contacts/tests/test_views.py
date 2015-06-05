@@ -20,14 +20,16 @@ class ContactViewTest(TestCase):
         expected = '<label>Firstname: '
         self.assertContains(self.response, expected, status_code=200)
 
-        expected = '<input type="text" name="firstname">'
+        expected = '<input id="id_firstname" maxlength="100" name="firstname" '
+        expected += 'type="text" />'
         self.assertContains(self.response, expected, status_code=200)
 
     def test_contact_view_should_have_lastname_and_input(self):
         expected = '<label>Last Name:</label>'
         self.assertContains(self.response, expected, status_code=200)
 
-        expected = '<input type="text" name="lastname">'
+        expected = '<input id="id_lastname" maxlength="100" name="lastname" '
+        expected += 'type="text" />'
         self.assertContains(self.response, expected, status_code=200)
 
     def test_contact_view_should_have_submit_button(self):
@@ -47,3 +49,21 @@ class ContactViewTest(TestCase):
         contact = Contact.objects.get(firstname='John')
         self.assertEqual(contact.firstname, 'John')
         self.assertEqual(contact.lastname, 'Smith')
+
+    def test_submit_contact_data_without_firstname_should_not_save_data(self):
+        data = {
+            'firstname': '',
+            'lastname': 'Smith'
+        }
+        self.client.post(self.url, data=data)
+        contact_count = Contact.objects.filter(lastname='Smith').count()
+        self.assertEqual(contact_count, 0)
+
+    def test_submit_contact_data_without_lastname_should_not_save_data(self):
+        data = {
+            'firstname': 'John',
+            'lastname': ''
+        }
+        self.client.post(self.url, data=data)
+        contact_count = Contact.objects.all().count()
+        self.assertEqual(contact_count, 0)
