@@ -29,3 +29,8 @@ When(/^User fills in only firstname$/) do
     fill_in 'firstname', with: 'lnwBoss'
 end
 
+Then(/^User should be redirected to thank you page$/) do
+    expect(page).to have_content('Thank you')
+    expect(page).to have_content('Firstname: lnwBoss')
+    expect(page).to have_content('Lastname: yong')
+end

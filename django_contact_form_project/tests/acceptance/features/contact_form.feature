@@ -3,7 +3,8 @@ Feature: Contact Form
         Given User is on contact form page
          When User completes the form
           And User clicks submit button
-         Then User sees no error
+         Then User should be redirected to thank you page
+          And User sees no error
 
     Scenario: User forgets to fill in firstname
         Given User is on contact form page
