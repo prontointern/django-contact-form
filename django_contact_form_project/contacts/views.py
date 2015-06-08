@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
@@ -31,6 +32,8 @@ class ContactView(TemplateView):
                 firstname=firstname,
                 lastname=lastname
             )
+            request.session['lastname'] = request.POST.get('lastname')
+            return HttpResponseRedirect('/thankyou/')
 
         return render(
             request,
@@ -45,3 +48,13 @@ class ContactView(TemplateView):
 class ThankYouView(TemplateView):
     template_name = 'thank_you.html'
 
+    def get(self, request):
+        lastname = request.session.get('lastname')
+
+        return render(
+            request,
+            self.template_name,
+            {
+                'lastname': lastname,
+            }
+        )
