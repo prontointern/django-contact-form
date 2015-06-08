@@ -1,3 +1,5 @@
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
@@ -31,6 +33,8 @@ class ContactView(TemplateView):
                 firstname=firstname,
                 lastname=lastname
             )
+            url = '/thankyou/?firstname=%s' % firstname
+            return HttpResponseRedirect(url)
 
         return render(
             request,
@@ -45,3 +49,12 @@ class ContactView(TemplateView):
 class ThankYouView(TemplateView):
     template_name = 'thank_you.html'
 
+    def get(self, request):
+        firstname = request.GET.get('firstname')
+        return render(
+            request,
+            self.template_name,
+            {
+                'firstname': firstname
+            }
+        )

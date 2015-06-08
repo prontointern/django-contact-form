@@ -90,6 +90,35 @@ class ContactViewTest(TestCase):
         expected = 'This field is required.'
         self.assertContains(response, expected, status_code=200)
 
+    def test_redirect_to_thank_you_page_successfully(self):
+        data = {
+            'firstname': 'John',
+            'lastname': 'Smith'
+        }
+        response = self.client.post(
+            self.url,
+            data=data
+        )
+        self.assertRedirects(
+            response,
+            '/thankyou/?firstname=John',
+            status_code=302,
+            target_status_code=200
+        )
+
+    def test_redirected_page_should_contain_firstname(self):
+        data = {
+            'firstname': 'John',
+            'lastname': 'Smith'
+        }
+        response = self.client.post(
+            self.url,
+            data=data,
+            follow=True
+        )
+        expected = 'Firstname: John'
+        self.assertContains(response, expected, status_code=200)
+
 
 class ThankYouViewTest(TestCase):
     def test_thank_you_view_is_accessible(self):
