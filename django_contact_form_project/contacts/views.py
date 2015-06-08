@@ -34,6 +34,7 @@ class ContactView(TemplateView):
                 lastname=lastname
             )
             url = '/thankyou/?firstname=%s' % firstname
+            request.session['lastname'] = request.POST.get('lastname')
             return HttpResponseRedirect(url)
 
         return render(
@@ -51,10 +52,13 @@ class ThankYouView(TemplateView):
 
     def get(self, request):
         firstname = request.GET.get('firstname')
+        lastname = request.session.get('lastname')
+
         return render(
             request,
             self.template_name,
             {
-                'firstname': firstname
+                'firstname': firstname,
+                'lastname': lastname,
             }
         )

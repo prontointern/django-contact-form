@@ -119,16 +119,26 @@ class ContactViewTest(TestCase):
         expected = 'Firstname: John'
         self.assertContains(response, expected, status_code=200)
 
+    def test_thank_you_page_should_contain_lastname(self):
+        url = '/contact/'
+        data = {
+            'firstname': 'lnwBoss',
+            'lastname': 'yong'
+        }
+        response = self.client.post(self.url, data=data, follow=True)
+        expected = 'Lastname: yong'
+        self.assertContains(response, expected, status_code=200)
+
 
 class ThankYouViewTest(TestCase):
+    def setUp(self):
+        self.url = reverse('thankyou')
+        self.response = self.client.get(self.url)
+
     def test_thank_you_view_is_accessible(self):
-        url = '/thankyou/'
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
 
     def test_thank_you_page_should_contain_title_thank_you(self):
-        url = '/thankyou/'
-        response = self.client.get(url)
         expected = '<h1>Thank you</h1>'
-        self.assertContains(response, expected, status_code=200)
+        self.assertContains(self.response, expected, status_code=200)
 
