@@ -97,3 +97,9 @@ class ThankYouViewTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+    def test_thank_you_page_should_contain_title_thank_you(self):
+        url = '/thankyou/'
+        response = self.client.get(url)
+        expected = '<h1>Thank you</h1>'
+        self.assertContains(response, expected, status_code=200)
+
