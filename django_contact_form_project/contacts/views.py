@@ -40,3 +40,8 @@ class ContactView(TemplateView):
                 'contact_form': form
             }
         )
+
+
+class ThankYouView(TemplateView):
+    template_name = 'thank_you.html'
+

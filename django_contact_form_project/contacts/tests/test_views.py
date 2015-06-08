@@ -89,3 +89,11 @@ class ContactViewTest(TestCase):
         response = self.client.post(self.url, data=data)
         expected = 'This field is required.'
         self.assertContains(response, expected, status_code=200)
+
+
+class ThankYouViewTest(TestCase):
+    def test_thank_you_view_is_accessible(self):
+        url = '/thankyou/'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+

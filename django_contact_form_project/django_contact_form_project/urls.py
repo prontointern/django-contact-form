@@ -11,6 +11,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='base.html')),
     url(r'^contact/$', contact_views.ContactView.as_view(), name='contact'),
+    url(r'^thankyou/$', contact_views.ThankYouView.as_view(), name='thankyou'),
 
     # Examples:
     # url(r'^$', 'django_contact_form_project.views.home', name='home'),
