@@ -296,6 +296,35 @@ class ContactViewTest(TestCase):
         expected = 'Lat: 13.754'
         self.assertContains(response, expected, status_code=200)
 
+    @patch('contacts.views.GeoIP')
+    def test_thank_you_page_should_contain_lng(self, mock):
+        mock.return_value.getGeoIP.return_value = {
+            "longitude": 100.5014,
+            "latitude": 13.754,
+            "asn": "AS4750",
+            "offset": "7",
+            "ip": "58.137.162.34",
+            "area_code": "0",
+            "continent_code": "AS",
+            "dma_code": "0",
+            "city": "Bangkok",
+            "timezone": "Asia/Bangkok",
+            "region": "Krung Thep",
+            "country_code": "TH",
+            "isp": "CS LOXINFO PUBLIC COMPANY LIMITED",
+            "country": "Thailand",
+            "country_code3": "THA",
+            "region_code": "40"
+        }
+        data = {
+            'firstname': 'lnwBoss',
+            'lastname': 'yong'
+        }
+        response = self.client.post(self.url, data=data, follow=True)
+        expected = 'Lng: 100.5014'
+        self.assertContains(response, expected, status_code=200)
+
+
 class ThankYouViewTest(TestCase):
     def setUp(self):
         self.url = reverse('thankyou')
