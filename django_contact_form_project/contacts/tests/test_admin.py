@@ -27,7 +27,9 @@ class ContactAdminTest(TestCase):
     def test_contact_admin_should_have_firstname_column(self):
         Contact.objects.create(
             firstname='John',
-            lastname='Smith'
+            lastname='Smith',
+            ip='58.137.162.34',
+            location='13.754:100.5014'
         )
 
         response = self.client.get(self.url)
@@ -37,8 +39,32 @@ class ContactAdminTest(TestCase):
     def test_contact_admin_should_have_lastname_column(self):
         Contact.objects.create(
             firstname='John',
-            lastname='Smith'
+            lastname='Smith',
+            ip='58.137.162.34',
+            location='13.754:100.5014'
         )
         response = self.client.get(self.url)
         expected = '<div class="text"><a href="?o=2">Lastname</a></div>'
+        self.assertContains(response, expected, status_code=200)
+
+    def test_contact_admin_should_have_ip_column(self):
+        Contact.objects.create(
+            firstname='John',
+            lastname='Smith',
+            ip='58.137.162.34',
+            location='13.754:100.5014'
+        )
+        response = self.client.get(self.url)
+        expected = '<div class="text"><a href="?o=3">Ip</a></div>'
+        self.assertContains(response, expected, status_code=200)
+
+    def test_contact_admin_should_have_location_column(self):
+        Contact.objects.create(
+            firstname='John',
+            lastname='Smith',
+            ip='58.137.162.34',
+            location='13.754:100.5014'
+        )
+        response = self.client.get(self.url)
+        expected = '<div class="text"><a href="?o=4">Location</a></div>'
         self.assertContains(response, expected, status_code=200)
