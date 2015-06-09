@@ -7,6 +7,7 @@ class ContactAdmin(admin.ModelAdmin):
     list_display = (
         'firstname',
         'lastname',
+        'email',
         'ip',
         'lat',
         'lng',

@@ -14,6 +14,12 @@ class Contact(models.Model):
         max_length=300
     )
 
+    email = models.EmailField(
+        null=False,
+        blank=False,
+        max_length=300
+    )
+
     ip = models.CharField(
         null=True,
         blank=True,

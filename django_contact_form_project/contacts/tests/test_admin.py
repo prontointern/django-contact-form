@@ -28,6 +28,7 @@ class ContactAdminTest(TestCase):
         Contact.objects.create(
             firstname='John',
             lastname='Smith',
+            email='john@smith.com',
             ip='58.137.162.34',
             lat='13.754',
             lng='100.5014'
@@ -41,6 +42,7 @@ class ContactAdminTest(TestCase):
         Contact.objects.create(
             firstname='John',
             lastname='Smith',
+            email='john@smith.com',
             ip='58.137.162.34',
             lat='13.754',
             lng='100.5014'
@@ -49,38 +51,54 @@ class ContactAdminTest(TestCase):
         expected = '<div class="text"><a href="?o=2">Lastname</a></div>'
         self.assertContains(response, expected, status_code=200)
 
-    def test_contact_admin_should_have_ip_column(self):
+    def test_contact_admin_should_have_email_column(self):
         Contact.objects.create(
             firstname='John',
             lastname='Smith',
+            email='john@smith.com',
             ip='58.137.162.34',
             lat='13.754',
             lng='100.5014'
         )
         response = self.client.get(self.url)
-        expected = '<div class="text"><a href="?o=3">Ip</a></div>'
+        expected = '<div class="text"><a href="?o=3">Email</a></div>'
+        self.assertContains(response, expected, status_code=200)
+
+    def test_contact_admin_should_have_ip_column(self):
+        Contact.objects.create(
+            firstname='John',
+            lastname='Smith',
+            email='john@smith.com',
+            ip='58.137.162.34',
+            lat='13.754',
+            lng='100.5014'
+        )
+        response = self.client.get(self.url)
+        expected = '<div class="text"><a href="?o=4">Ip</a></div>'
         self.assertContains(response, expected, status_code=200)
 
     def test_contact_admin_should_have_lat_column(self):
         Contact.objects.create(
             firstname='John',
             lastname='Smith',
+            email='john@smith.com',
             ip='58.137.162.34',
             lat='13.754',
             lng='100.5014'
         )
         response = self.client.get(self.url)
-        expected = '<div class="text"><a href="?o=4">Lat</a></div>'
+        expected = '<div class="text"><a href="?o=5">Lat</a></div>'
         self.assertContains(response, expected, status_code=200)
 
     def test_contact_admin_should_have_lng_column(self):
         Contact.objects.create(
             firstname='John',
             lastname='Smith',
+            email='john@smith.com',
             ip='58.137.162.34',
             lat='13.754',
             lng='100.5014'
         )
         response = self.client.get(self.url)
-        expected = '<div class="text"><a href="?o=5">Lng</a></div>'
+        expected = '<div class="text"><a href="?o=6">Lng</a></div>'
         self.assertContains(response, expected, status_code=200)

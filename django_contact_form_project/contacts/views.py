@@ -30,17 +30,20 @@ class ContactView(TemplateView):
         if form.is_valid():
             firstname = form.cleaned_data['firstname']
             lastname = form.cleaned_data['lastname']
+            email = form.cleaned_data['email']
             geoip = GeoIP()
             result = geoip.getGeoIP()
             Contact.objects.create(
                 firstname=firstname,
                 lastname=lastname,
+                email=email,
                 ip=result['ip'],
                 lat=result['latitude'],
                 lng=result['longitude']
             )
             url = '/thankyou/?firstname=%s' % firstname
             request.session['lastname'] = request.POST.get('lastname')
+            request.session['email'] = request.POST.get('email')
             request.session['ip'] = result['ip']
             request.session['lat'] = result['latitude']
             request.session['lng'] = result['longitude']
