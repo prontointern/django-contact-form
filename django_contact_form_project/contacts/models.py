@@ -20,7 +20,13 @@ class Contact(models.Model):
         max_length=300
     )
 
-    location = models.CharField(
+    lat = models.CharField(
+        null=True,
+        blank=True,
+        max_length=300
+    )
+
+    lng = models.CharField(
         null=True,
         blank=True,
         max_length=300

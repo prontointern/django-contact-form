@@ -8,7 +8,8 @@ class ContactAdmin(admin.ModelAdmin):
         'firstname',
         'lastname',
         'ip',
-        'location',
+        'lat',
+        'lng',
     )
 
 
