@@ -7,6 +7,7 @@ from .forms import ContactForm
 from .models import Contact
 from telize.api.geoip import GeoIP
 
+
 class ContactView(TemplateView):
     template_name = 'contact_form.html'
 
@@ -40,6 +41,7 @@ class ContactView(TemplateView):
             )
             url = '/thankyou/?firstname=%s' % firstname
             request.session['lastname'] = request.POST.get('lastname')
+            request.session['ip'] = result['ip']
             return HttpResponseRedirect(url)
 
         return render(
@@ -58,11 +60,13 @@ class ThankYouView(TemplateView):
     def get(self, request):
         firstname = request.GET.get('firstname')
         lastname = request.session.get('lastname')
+        ip = request.session.get('ip')
         return render(
             request,
             self.template_name,
             {
                 'firstname': firstname,
                 'lastname': lastname,
+                'ip': ip,
             }
         )
