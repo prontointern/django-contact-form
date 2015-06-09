@@ -42,6 +42,7 @@ class ContactView(TemplateView):
             url = '/thankyou/?firstname=%s' % firstname
             request.session['lastname'] = request.POST.get('lastname')
             request.session['ip'] = result['ip']
+            request.session['lat'] = result['latitude']
             return HttpResponseRedirect(url)
 
         return render(
@@ -61,6 +62,7 @@ class ThankYouView(TemplateView):
         firstname = request.GET.get('firstname')
         lastname = request.session.get('lastname')
         ip = request.session.get('ip')
+        lat = request.session.get('lat')
         return render(
             request,
             self.template_name,
@@ -68,5 +70,6 @@ class ThankYouView(TemplateView):
                 'firstname': firstname,
                 'lastname': lastname,
                 'ip': ip,
+                'lat': lat,
             }
         )
