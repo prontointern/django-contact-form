@@ -1,3 +1,5 @@
+from mock import patch
+
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
@@ -40,15 +42,38 @@ class ContactViewTest(TestCase):
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_submit_contact_data_successfully(self):
+    @patch('contacts.views.GeoIP')
+    def test_submit_contact_data_successfully(self, mock):
+        mock.return_value.getGeoIP.return_value = {
+            "longitude": 100.5014,
+            "latitude": 13.754,
+            "asn": "AS4750",
+            "offset": "7",
+            "ip": "58.137.162.34",
+            "area_code": "0",
+            "continent_code": "AS",
+            "dma_code": "0",
+            "city": "Bangkok",
+            "timezone": "Asia/Bangkok",
+            "region": "Krung Thep",
+            "country_code": "TH",
+            "isp": "CS LOXINFO PUBLIC COMPANY LIMITED",
+            "country": "Thailand",
+            "country_code3": "THA",
+            "region_code": "40"
+        }
         data = {
             'firstname': 'John',
             'lastname': 'Smith'
         }
+
         self.client.post(self.url, data=data)
         contact = Contact.objects.get(firstname='John')
         self.assertEqual(contact.firstname, 'John')
         self.assertEqual(contact.lastname, 'Smith')
+        self.assertEqual(contact.ip, '58.137.162.34')
+        self.assertEqual(contact.lat, '13.754')
+        self.assertEqual(contact.lng, '100.5014')
 
     def test_submit_contact_data_without_firstname_should_not_save_data(self):
         data = {
@@ -90,7 +115,8 @@ class ContactViewTest(TestCase):
         expected = 'This field is required.'
         self.assertContains(response, expected, status_code=200)
 
-    def test_redirect_to_thank_you_page_successfully(self):
+    @patch('contacts.views.GeoIP')
+    def test_redirect_to_thank_you_page_successfully(self, mock):
         data = {
             'firstname': 'John',
             'lastname': 'Smith'
@@ -106,7 +132,8 @@ class ContactViewTest(TestCase):
             target_status_code=200
         )
 
-    def test_redirected_page_should_contain_firstname(self):
+    @patch('contacts.views.GeoIP')
+    def test_redirected_page_should_contain_firstname(self, mock):
         data = {
             'firstname': 'John',
             'lastname': 'Smith'
@@ -119,8 +146,8 @@ class ContactViewTest(TestCase):
         expected = 'Firstname: John'
         self.assertContains(response, expected, status_code=200)
 
-    def test_thank_you_page_should_contain_lastname(self):
-        url = '/contact/'
+    @patch('contacts.views.GeoIP')
+    def test_thank_you_page_should_contain_lastname(self, mock):
         data = {
             'firstname': 'lnwBoss',
             'lastname': 'yong'
@@ -128,6 +155,18 @@ class ContactViewTest(TestCase):
         response = self.client.post(self.url, data=data, follow=True)
         expected = 'Lastname: yong'
         self.assertContains(response, expected, status_code=200)
+
+    @patch('contacts.views.GeoIP')
+    def test_call_geoip_api_successfully(self, mock):
+        data = {
+            'firstname': 'John',
+            'lastname': 'Smith'
+        }
+        response = self.client.post(
+            self.url,
+            data=data
+        )
+        mock.return_value_getGeoIP.assert_once_with()
 
 
 class ThankYouViewTest(TestCase):
