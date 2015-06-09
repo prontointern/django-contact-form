@@ -14,5 +14,17 @@ class Contact(models.Model):
         max_length=300
     )
 
+    ip = models.CharField(
+        null=True,
+        blank=True,
+        max_length=300
+    )
+
+    location = models.CharField(
+        null=True,
+        blank=True,
+        max_length=300
+    )
+
     def __unicode__(self):
         return self.firstname + ' ' + self.lastname

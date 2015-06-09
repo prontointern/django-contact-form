@@ -9,6 +9,8 @@ class ContactTest(TestCase):
         contact = Contact()
         contact.firstname = 'John'
         contact.lastname = 'Smith'
+        contact.ip = '58.137.162.34'
+        contact.location = '13.754:100.5014'
         self.assertFalse(contact.pk)
         contact.save()
         self.assertTrue(contact.pk)
@@ -16,23 +18,49 @@ class ContactTest(TestCase):
         contact = Contact.objects.get(firstname='John')
         self.assertEqual(contact.firstname, 'John')
         self.assertEqual(contact.lastname, 'Smith')
+        self.assertEqual(contact.ip, '58.137.162.34')
+        self.assertEqual(contact.location, '13.754:100.5014')
 
     def test_firstname_is_none_should_show_error(self):
         contact = Contact()
         contact.firstname = None
         contact.lastname = 'Smith'
+        contact.ip = '58.137.162.34'
+        contact.location = '13.754:100.5014'
         self.assertRaises(IntegrityError, contact.save)
 
     def test_lastname_is_none_should_show_error(self):
         contact = Contact()
         contact.firstname = 'John'
         contact.lastname = None
+        contact.ip = '58.137.162.34'
+        contact.location = '13.754:100.5014'
         self.assertRaises(IntegrityError, contact.save)
+
+    def test_ip_is_none_should_not_show_error(self):
+        contact = Contact()
+        contact.firstname = 'John'
+        contact.lastname = 'Smith'
+        contact.ip = None
+        contact.location = '13.754:100.5014'
+        contact.save()
+        self.assertTrue(contact.pk)
+
+    def test_location_is_none_should_not_show_error(self):
+        contact = Contact()
+        contact.firstname = 'John'
+        contact.lastname = 'Smith'
+        contact.ip = '58.137.162.34'
+        contact.location = None
+        contact.save()
+        self.assertTrue(contact.pk)
 
     def test_print_contact_object_should_be_readable(self):
         contact = Contact.objects.create(
             firstname='John',
-            lastname='Smith'
+            lastname='Smith',
+            ip='58.137.162.34',
+            location='13.754:100.5014'
         )
         expected = 'John Smith'
         self.assertEqual(contact.__unicode__(), expected)

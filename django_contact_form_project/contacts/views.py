@@ -6,7 +6,6 @@ from django.views.generic import TemplateView
 from .forms import ContactForm
 from .models import Contact
 
-
 class ContactView(TemplateView):
     template_name = 'contact_form.html'
 
@@ -53,7 +52,6 @@ class ThankYouView(TemplateView):
     def get(self, request):
         firstname = request.GET.get('firstname')
         lastname = request.session.get('lastname')
-
         return render(
             request,
             self.template_name,
